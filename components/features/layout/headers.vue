@@ -12,7 +12,7 @@
 
     <div class="header-right">
       <div class="user-profile">
-        <span>Hello, {{ userNickname }}!</span>
+        <span>Hello, {{ user?.nickname }}!</span>
         <button @click="handleLogout" class="logout-btn">Logout</button>
       </div>
     </div>
@@ -20,23 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'; // Добавляем watch
+import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
 
 const authStore = useAuthStore();
 
-const userNickname = computed(() => {
-  return authStore.user?.nickname || '';
-});
-
-watch(
-    () => authStore.user,
-    (newUser) => {
-      console.log('[TheHeader.vue] Заметил изменение! Новый пользователь в Pinia:', newUser);
-    },
-    { immediate: true }
-);
-
+const { user } = storeToRefs(authStore);
 
 defineProps({
   title: {
