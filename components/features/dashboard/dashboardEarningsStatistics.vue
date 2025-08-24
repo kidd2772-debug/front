@@ -63,13 +63,12 @@ const props = defineProps({
 });
 
 const chartData = computed(() => {
-  const dataArray = Array.isArray(props.chartRawData) ? props.chartRawData : [];
   return {
     labels: dataArray.map(item => item.label),
     datasets: [
       {
         label: 'Network Earnings',
-        data: dataArray.map(item => item.value),
+        data: props.chartRawData.map(item => item.value),
         backgroundColor: '#E2E2E2',
         borderColor: '#E2E2E2',
         borderRadius: 4,
