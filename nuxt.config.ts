@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/google-fonts',
+    'pinia-plugin-persistedstate/nuxt',
   ],
 
   typescript: {
