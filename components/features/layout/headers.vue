@@ -29,6 +29,7 @@ defineProps({
     default: 'Dashboard'
   }
 });
+console.log(authStore.user)
 const handleLogout = () => {
   authStore.logout();
 };
