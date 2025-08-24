@@ -27,6 +27,15 @@ export const useAuthStore = defineStore('auth', {
             this.token = data.token;
             this.user = data.user;
         },
+        async refreshUser() {
+            try {
+                const { $api } = useNuxtApp();
+                const updatedUser = await $api('/users/me');
+                this.user = updatedUser;
+            } catch (error) {
+                console.error("Failed to refresh user data", error);
+            }
+        },
 
         logout() {
             this.$reset();

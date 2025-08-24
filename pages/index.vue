@@ -1,76 +1,100 @@
 <template>
   <div>
-    <div class="status">
-      <div class="status__inner">
-        <p>
-          Welcome to Epoch 10! On the dashboard
-          you will see your earnings for this epoch.
-          To view your total number of points, simply
-          navigate to the Rewards tab on the left.
-        </p>
-      </div>
+    <div v-if="pending">Loading dashboard...</div>
+
+    <div v-else-if="error">
+      <h2>Error loading dashboard</h2>
+      <p>{{ error.message }}</p>
     </div>
-    <div class="dashboard-grid">
-      <BaseCard>
-        <div class="earning">
-          <div class="earning__inner">
-            <div class="earning__inner__info">
-              <p>Earnings</p>
-              <div class="earning__inner__info__card">
-                <div class="info">
-                  <div>
-                    <p>Invest</p>
-                    <span>0.00</span>
+
+    <div v-else-if="data">
+      <div class="status">
+        <div class="status__inner">
+          <p>
+            Welcome to Epoch 10! On the dashboard
+            you will see your earnings for this epoch.
+            To view your total number of points, simply
+            navigate to the Rewards tab on the left.
+          </p>
+        </div>
+      </div>
+      <div class="dashboard-grid">
+        <BaseCard>
+          <div class="earning">
+            <div class="earning__inner">
+              <div class="earning__inner__info">
+                <p>Earnings</p>
+                <div class="earning__inner__info__card">
+                  <div class="info">
+                    <div>
+                      <p>Balance</p>
+                      <span>{{ data.user.balance.toFixed(2) }}</span>
+                    </div>
                   </div>
-                </div>
-                <div class="info">
-                  <div>
-                    <p>Profit</p>
-                    <span>0.00</span>
+                  <div class="info">
+                    <div>
+                      <p>Total Profit</p>
+                      <span>{{ data.user.totalProfit.toFixed(2) }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </BaseCard>
+        </BaseCard>
 
-      <BaseCard>
-        <div class="plan">
-          <div class="plan__inner">
-            <div class="plan__inner__side">
-              <div class="plan__info">
-                <div>
-                  icon plan
+        <BaseCard>
+          <div class="plan">
+            <div class="plan__inner">
+              <div class="plan__inner__side">
+                <div class="plan__info">
+                  <div>
+                    icon plan
+                  </div>
+                  <div>
+                    progres bar
+                  </div>
                 </div>
-                <div>
-                  progres bar
-                </div>
+                <p>
+                  To next plan u need 1000$
+                </p>
+                <button>
+                  Deposit
+                </button>
               </div>
-              <p>
-                To next plan u need 1000$
-              </p>
-              <button>
-                Deposit
-              </button>
             </div>
           </div>
-        </div>
-      </BaseCard>
+        </BaseCard>
 
-      <dashboard-earnings-statistics class="span-full" />
+        <dashboard-earnings-statistics
+            class="span-full"
+            :chart-raw-data="data.earnings"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DashboardEarningsStatistics from "~/components/features/dashboard/dashboardEarningsStatistics.vue";
+
+const { $api } = useNuxtApp();
+
+const { data, pending, error } = await useAsyncData('dashboard-data', async () => {
+  const [user, earnings] = await Promise.all([
+    $api('/users/me'),
+    $api('/earnings/statistics')
+  ]);
+  return { user, earnings };
+});
 
 useHead({
   title: 'Dashboard'
 });
+
 definePageMeta({
-  title: 'Dashboard'
+  title: 'Dashboard',
+  middleware: 'auth'
 });
 </script>
 

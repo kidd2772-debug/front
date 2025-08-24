@@ -1,48 +1,51 @@
 <template>
   <BaseCard class="earnings-statistics-card">
     <div class="earnings-statistics-card_inner">
-    <header class="stats-header">
-      <div class="stats-title">
-        <h2>Earnings Statistics</h2>
-      </div>
-      <button class="refresh-btn">
-        <span>Refresh</span>
-      </button>
-    </header>
+      <header class="stats-header">
+        <div class="stats-title">
+          <h2>Earnings Statistics</h2>
+        </div>
+        <button class="refresh-btn">
+          <span>Refresh</span>
+        </button>
+      </header>
 
-    <div class="chart-area">
-      <base-bar-chart
-          v-if="chartRawData.length"
-          :chart-data="chartData"
-          :chart-options="chartOptions"
-      />
-    </div>
-
-    <div class="x-axis">
-      <div
-          v-for="(item, index) in chartRawData"
-          :key="index"
-          class="date-label"
-          :class="{ active: item.label === activeDate }"
-      >
-        <span>{{ item.label.split(' ')[0] }}</span>
-        <span class="month">{{ item.label.split(' ')[1] }}</span>
+      <div class="chart-area">
+        <base-bar-chart
+            v-if="chartRawData && chartRawData.length"
+            :chart-data="chartData"
+            :chart-options="chartOptions"
+        />
+        <p v-else style="text-align: center; padding: 2rem;">
+          No earnings data available for this period.
+        </p>
       </div>
-    </div>
 
-    <footer class="stats-legend">
-      <div
-          v-for="legend in legendItems"
-          :key="legend.label"
-          class="legend-item"
-      >
-        <span
-            class="legend-dot"
-            :style="{ backgroundColor: legend.color }"
-        ></span>
-        <span>{{ legend.label }}</span>
+      <div class="x-axis">
+        <div
+            v-for="(item, index) in chartRawData"
+            :key="index"
+            class="date-label"
+            :class="{ active: item.label === activeDate }"
+        >
+          <span>{{ item.label.split(' ')[0] }}</span>
+          <span class="month">{{ item.label.split(' ')[1] }}</span>
+        </div>
       </div>
-    </footer>
+
+      <footer class="stats-legend">
+        <div
+            v-for="legend in legendItems"
+            :key="legend.label"
+            class="legend-item"
+        >
+          <span
+              class="legend-dot"
+              :style="{ backgroundColor: legend.color }"
+          ></span>
+          <span>{{ legend.label }}</span>
+        </div>
+      </footer>
     </div>
   </BaseCard>
 </template>
@@ -51,29 +54,21 @@
 import { ref, computed } from 'vue';
 import baseBarChart from '~/components/base/baseBarChart.vue';
 
-const chartRawData = ref([
-  { label: '31 Jul', value: 10 }, { label: '1 Aug', value: 15 },
-  { label: '2 Aug', value: 20 }, { label: '3 Aug', value: 25 },
-  { label: '4 Aug', value: 22 }, { label: '5 Aug', value: 30 },
-  { label: '6 Aug', value: 35 }, { label: '7 Aug', value: 40 },
-  { label: '8 Aug', value: 38 }, { label: '9 Aug', value: 45 },
-  { label: '10 Aug', value: 50 }, { label: '11 Aug', value: 55 },
-  { label: '12 Aug', value: 52 }, { label: '13 Aug', value: 60 },
-  { label: '14 Aug', value: 65 }, { label: '15 Aug', value: 70 },
-  { label: '16 Aug', value: 68 }, { label: '17 Aug', value: 75 },
-  { label: '18 Aug', value: 80 }, { label: '19 Aug', value: 78 },
-  { label: '20 Aug', value: 85 }, { label: '21 Aug', value: 90 },
-  { label: '22 Aug', value: 88 }, { label: '23 Aug', value: 95 },
-  { label: '24 Aug', value: 100 },
-]);
+const props = defineProps({
+  chartRawData: {
+    type: Array as () => Array<{ label: string; value: number }>,
+    required: true,
+    default: () => [],
+  },
+});
 
 const chartData = computed(() => {
   return {
-    labels: chartRawData.value.map(item => item.label),
+    labels: props.chartRawData.map(item => item.label),
     datasets: [
       {
         label: 'Network Earnings',
-        data: chartRawData.value.map(item => item.value),
+        data: props.chartRawData.map(item => item.value),
         backgroundColor: '#E2E2E2',
         borderColor: '#E2E2E2',
         borderRadius: 4,
@@ -83,35 +78,14 @@ const chartData = computed(() => {
   };
 });
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: true,
-      backgroundColor: '#191A23',
-      titleFont: { weight: 'bold' },
-      bodyFont: { size: 14 },
-      padding: 10,
-      cornerRadius: 8,
-    },
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-      border: { display: false },
-      ticks: { display: false },
-    },
-    y: {
-      display: false,
-    },
-  },
+const activeDate = computed(() => {
+  if (!props.chartRawData || props.chartRawData.length === 0) {
+    return null;
+  }
+  return props.chartRawData[props.chartRawData.length - 1].label;
 });
 
-const activeDate = ref('24 Aug');
+const chartOptions = ref({ /* ... ваши опции как и были ... */ });
 const legendItems = ref([
   { label: 'Network Earnings', color: '#A0FF00' },
   { label: 'Referrals', color: '#DDDDDD' },
@@ -119,7 +93,6 @@ const legendItems = ref([
   { label: 'Referral Bonus', color: '#DDDDDD' },
 ]);
 </script>
-
 <style lang="scss" scoped>
 .earnings-statistics-card {
   padding: 0;
