@@ -64,7 +64,7 @@ const props = defineProps({
 
 const chartData = computed(() => {
   return {
-    labels: dataArray.map(item => item.label),
+    labels: props.chartRawData.map(item => item.label),
     datasets: [
       {
         label: 'Network Earnings',
