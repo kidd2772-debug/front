@@ -3,11 +3,11 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@nuxtjs/google-fonts',
     'pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/google-fonts',
   ],
 
-  piniaPersistedstate: {
+  piniaPluginPersistedstate: {
     storage: 'localStorage',
     mode: 'client'
   },
