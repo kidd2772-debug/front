@@ -20,25 +20,18 @@ const error = ref<string | null>(null);
 
 const onTelegramAuth = async (user) => {
   try {
-    console.log("Telegram auth data received:", user);
 
     const response = await $fetch('https://acdc2b196563.ngrok-free.app/api/auth/telegram', {
       method: 'POST',
       body: user
     });
 
-    console.log("Backend response:", response);
-
     const { token, user: userData } = response;
-    console.log("Received JWT Token:", token);
-    console.log("Received User Data:", userData);
-
     alert('Login Successful!');
 
     router.push('/');
 
   } catch (err: any) {
-    console.error("Login failed:", err);
     error.value = err.data?.message || 'An error occurred during login. Please try again.';
   }
 };
