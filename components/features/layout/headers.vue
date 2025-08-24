@@ -19,6 +19,8 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '~/store/auth';
+const authStore = useAuthStore();
 defineProps({
   title: {
     type: String,
@@ -26,6 +28,9 @@ defineProps({
     default: 'Dashboard'
   }
 });
+const handleLogout = () => {
+  authStore.logout();
+};
 </script>
 
 <style lang="scss" scoped>
