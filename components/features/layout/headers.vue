@@ -12,7 +12,7 @@
 
     <div class="header-right">
       <div class="user-profile">
-        <span>Hello, {{ authStore.user?.nickname }}!</span>
+        <span>Hello, {{ userNickname }}!</span>
         <button @click="handleLogout" class="logout-btn">Logout</button>
       </div>
     </div>
@@ -20,8 +20,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useAuthStore } from '~/store/auth';
+
 const authStore = useAuthStore();
+
+const userNickname = computed(() => {
+  return authStore.user?.nickname || '';
+});
+
 defineProps({
   title: {
     type: String,
@@ -29,7 +36,7 @@ defineProps({
     default: 'Dashboard'
   }
 });
-console.log(authStore.user)
+
 const handleLogout = () => {
   authStore.logout();
 };
