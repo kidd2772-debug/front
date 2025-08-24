@@ -1,11 +1,13 @@
 import { useAuthStore } from "~/store/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const config = useRuntimeConfig();
+    const baseURL = process.env.NUXT_PUBLIC_API_BASE_URL;
+
     const authStore = useAuthStore();
 
     const api = $fetch.create({
-        baseURL: config.public.apiBaseUrl,
+        baseURL: baseURL,
+
         onRequest({ request, options }) {
             if (authStore.token) {
                 const headers = options.headers as HeadersInit;

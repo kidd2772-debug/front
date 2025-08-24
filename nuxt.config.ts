@@ -18,8 +18,19 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api',
+      apiBaseUrl: '',
     }
+  },
+
+  hooks: {
+    'vite:extendConfig': (config, { isClient, isServer }) => {
+      if (isClient) {
+        config.define = config.define || {};
+        config.define['process.env.NUXT_PUBLIC_API_BASE_URL'] = JSON.stringify(
+            process.env.NUXT_PUBLIC_API_BASE_URL
+        );
+      }
+    },
   },
 
   app: {
