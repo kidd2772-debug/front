@@ -1,10 +1,12 @@
 import { useAuthStore } from "~/store/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const baseURL = process.env.NUXT_PUBLIC_API_BASE_URL;
-
+    const config = useRuntimeConfig();
     const authStore = useAuthStore();
-
+    let baseURL = config.public.apiBaseUrl;
+    if (!baseURL || baseURL.includes('localhost')) {
+        baseURL = 'https://acdc2b196563.ngrok-free.app/api';
+    }
     const api = $fetch.create({
         baseURL: baseURL,
 
@@ -15,7 +17,6 @@ export default defineNuxtPlugin((nuxtApp) => {
                 options.headers = headers;
             }
         },
-
         onResponseError({ response }) {
             if (response.status === 401) {
                 authStore.logout();

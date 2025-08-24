@@ -1,3 +1,4 @@
+import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
@@ -18,19 +19,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: '',
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api',
     }
-  },
-
-  hooks: {
-    'vite:extendConfig': (config, { isClient, isServer }) => {
-      if (isClient) {
-        config.define = config.define || {};
-        config.define['process.env.NUXT_PUBLIC_API_BASE_URL'] = JSON.stringify(
-            process.env.NUXT_PUBLIC_API_BASE_URL
-        );
-      }
-    },
   },
 
   app: {
