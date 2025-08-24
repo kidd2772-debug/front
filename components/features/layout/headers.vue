@@ -12,7 +12,7 @@
 
     <div class="header-right">
       <div class="user-profile">
-        <span>Hello, kidd2772357262!</span>
+        <span>Hello, {{ authStore.user?.nickname }}!</span>
       </div>
     </div>
   </header>
