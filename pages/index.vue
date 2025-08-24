@@ -34,7 +34,7 @@
                   <div class="info">
                     <div>
                       <p>Total Profit</p>
-                      <span>{{ data.user?.totalProfit}}</span>
+                      <span>{{ data.user}}</span>
                     </div>
                   </div>
                 </div>
