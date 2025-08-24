@@ -25,9 +25,8 @@ const onTelegramAuth = async (user) => {
       method: 'POST',
       body: user
     });
-
+    console.log(response)
     const { token, user: userData } = response;
-    alert('Login Successful!');
 
     router.push('/');
 
