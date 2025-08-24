@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  background-color: $background-light;
+  color: $text-dark;
+  font-family: $font-family-main;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
