@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue'; // Добавляем watch
 import { useAuthStore } from '~/store/auth';
 
 const authStore = useAuthStore();
@@ -28,6 +28,15 @@ const authStore = useAuthStore();
 const userNickname = computed(() => {
   return authStore.user?.nickname || '';
 });
+
+watch(
+    () => authStore.user,
+    (newUser) => {
+      console.log('[TheHeader.vue] Заметил изменение! Новый пользователь в Pinia:', newUser);
+    },
+    { immediate: true }
+);
+
 
 defineProps({
   title: {

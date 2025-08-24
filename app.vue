@@ -8,20 +8,27 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth';
+
 const authStore = useAuthStore();
 const { $api } = useNuxtApp();
+
 onMounted(async () => {
   const token = localStorage.getItem('authToken');
 
   if (token && !authStore.isAuthenticated) {
-    console.log('Found token in localStorage, trying to restore session...');
+    console.log('[app.vue] Нашел токен, пытаюсь восстановить сессию...');
     authStore.setToken(token);
+
     try {
       const user = await $api('/users/me');
+      console.log('[app.vue] ПОЛУЧИЛ ДАННЫЕ С БЭКЕНДА:', user);
+
       authStore.setUser(user);
-      console.log('Session restored successfully for:', user.nickname);
+
+      console.log('[app.vue] ПОЛОЖИЛ В PINIA:', authStore.user);
+
     } catch (error) {
-      console.error('Failed to restore session:', error);
+      console.error('[app.vue] Ошибка при восстановлении сессии:', error);
     }
   }
 });
