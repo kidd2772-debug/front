@@ -50,7 +50,7 @@ onMounted(() => {
   script.src = 'https://telegram.org/js/telegram-widget.js?22';
   script.async = true;
 
-  script.setAttribute('data-telegram-login', 'YOUR_TELEGRAM_BOT_NAME'); // <-- !! ЗАМЕНИТЕ НА ИМЯ ВАШЕГО БОТА !!
+  script.setAttribute('data-telegram-login', 'wipto_bot');
   script.setAttribute('data-size', 'large');
   script.setAttribute('data-radius', '20');
 
