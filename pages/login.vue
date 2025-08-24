@@ -1,4 +1,3 @@
-<!-- pages/login.vue -->
 <template>
   <div class="login-container">
     <BaseCard class="login-card">
@@ -15,12 +14,14 @@ import { ref, onMounted } from 'vue';
 import { useAuthStore } from '~/store/auth';
 
 const authStore = useAuthStore();
+const { $api } = useNuxtApp();
 
 const error = ref<string | null>(null);
 
 const onTelegramAuth = async (user) => {
+  error.value = null;
   try {
-    const response = await $fetch('https://acdc2b196563.ngrok-free.app/api/auth/telegram', {
+    const response = await $api('/auth/telegram', {
       method: 'POST',
       body: user
     });
@@ -32,7 +33,6 @@ const onTelegramAuth = async (user) => {
 
   } catch (err: any) {
     console.error("LOGIN CATCH BLOCK - RAW ERROR:", err);
-
     error.value = err.data?.message || 'An error occurred during login. Please try again.';
   }
 };
