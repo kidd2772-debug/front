@@ -22,7 +22,7 @@ const onTelegramAuth = async (user) => {
   try {
     console.log("Telegram auth data received:", user);
 
-    const response = await $fetch('http://localhost:5000/api/auth/telegram', {
+    const response = await $fetch('https://acdc2b196563.ngrok-free.app/api/auth/telegram', {
       method: 'POST',
       body: user
     });
