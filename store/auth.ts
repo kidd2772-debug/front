@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', {
         token: null as string | null,
         user: null as User | null,
     }),
+
     getters: {
         isAuthenticated: (state) => !!state.token && !!state.user,
         isAdmin: (state) => state.user?.role === 'admin',
@@ -30,8 +31,7 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.$reset();
 
-            const router = useRouter();
-            router.push('/login');
+            return navigateTo('/login');
         },
     },
 

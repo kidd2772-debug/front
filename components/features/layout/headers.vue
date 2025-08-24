@@ -11,8 +11,8 @@
     </div>
 
     <div class="header-right">
-      <div class="user-profile">
-        <span>Hello, {{ user }}!</span>
+      <div v-if="user" class="user-profile">
+        <span>Hello, {{ user.nickname }}!</span>
         <button @click="handleLogout" class="logout-btn">Logout</button>
       </div>
     </div>
@@ -24,7 +24,6 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
 
 const authStore = useAuthStore();
-console.log(authStore)
 
 const { user } = storeToRefs(authStore);
 

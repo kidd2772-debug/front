@@ -12,23 +12,24 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useAuthStore } from '~/store/auth';
 
-const router = useRouter();
+const authStore = useAuthStore();
 
 const error = ref<string | null>(null);
 
 const onTelegramAuth = async (user) => {
   try {
-
     const response = await $fetch('https://acdc2b196563.ngrok-free.app/api/auth/telegram', {
       method: 'POST',
       body: user
     });
-    console.log(response)
-    const { token, user: userData } = response;
 
-    router.push('/');
+    const { token, user: userData } = response as { token: string; user: any };
+
+    authStore.loginSuccess({ token, user: userData });
+
+    await navigateTo('/');
 
   } catch (err: any) {
     error.value = err.data?.message || 'An error occurred during login. Please try again.';
@@ -45,7 +46,6 @@ onMounted(() => {
   script.setAttribute('data-telegram-login', 'wipto_bot');
   script.setAttribute('data-size', 'large');
   script.setAttribute('data-radius', '20');
-
   script.setAttribute('data-onauth', 'onTelegramAuth(user)');
 
   document.getElementById('telegram-login-widget')?.appendChild(script);
