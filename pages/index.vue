@@ -28,13 +28,13 @@
                   <div class="info">
                     <div>
                       <p>Balance</p>
-                      <span>{{ data.user.balance.toFixed(2) }}</span>
+                      <span>{{ data.user?.balance?.toFixed(2) || '0.00' }}</span>
                     </div>
                   </div>
                   <div class="info">
                     <div>
                       <p>Total Profit</p>
-                      <span>{{ data.user.totalProfit.toFixed(2) }}</span>
+                      <<span>{{ data.user?.totalProfit?.toFixed(2) || '0.00' }}</span>
                     </div>
                   </div>
                 </div>
