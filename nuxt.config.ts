@@ -7,6 +7,11 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
   ],
 
+  piniaPersistedstate: {
+    storage: 'localStorage',
+    mode: 'client'
+  },
+
   typescript: {
     strict: true,
   },
