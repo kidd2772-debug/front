@@ -28,10 +28,11 @@ const onTelegramAuth = async (user) => {
     const { token, user: userData } = response as { token: string; user: any };
 
     authStore.loginSuccess({ token, user: userData });
-
     await navigateTo('/');
 
   } catch (err: any) {
+    console.error("LOGIN CATCH BLOCK - RAW ERROR:", err);
+
     error.value = err.data?.message || 'An error occurred during login. Please try again.';
   }
 };
