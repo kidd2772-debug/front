@@ -12,7 +12,7 @@
 
     <div class="header-right">
       <div class="user-profile">
-        <span>Hello, {{ user?.nickname }}!</span>
+        <span>Hello, {{ user }}!</span>
         <button @click="handleLogout" class="logout-btn">Logout</button>
       </div>
     </div>
