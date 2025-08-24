@@ -5,7 +5,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const authStore = useAuthStore();
     let baseURL = config.public.apiBaseUrl;
     if (!baseURL || baseURL.includes('localhost')) {
-        baseURL = 'https://b9e81efaa6ba.ngrok-free.app/api';
+        baseURL = 'https://8fe562935885.ngrok-free.app/api';
     }
     const api = $fetch.create({
         baseURL: baseURL,
